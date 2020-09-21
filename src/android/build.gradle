@@ -1,0 +1,9 @@
+repositories{    
+    flatDir{
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation files('libs/pdfbox-2.0.20.jar')
+}

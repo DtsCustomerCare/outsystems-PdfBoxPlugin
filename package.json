@@ -1,0 +1,34 @@
+{
+  "name": "outsystems-PdfBoxPlugin",
+  "version": "0.0.1",
+  "description": "An Android Cordova plugin that uses PDFBox to merge PDFs and Images",
+  "cordova": {
+    "id": "com.flplucio.outsystems-PdfBoxPlugin",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flplucio/outsystems-PdfBoxPlugin.git"
+  },
+  "keywords": [
+    "pdfbox",
+    "pdf",
+    "pdfmerge",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Felipe Souza",
+  "license": "Apache 2.0 License",
+  "bugs": {
+    "url": "https://github.com/flplucio/outsystems-PdfBoxPlugin/issues"
+  },
+  "homepage": "https://github.com/flplucio/outsystems-PdfBoxPlugin/"
+}
