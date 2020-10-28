@@ -33,7 +33,26 @@ public class PdfBoxPlugin extends CordovaPlugin {
             try {
                 
                 PDRectangle rectangle = getPosition();
-		        addImageToPDF(rectangle.getLowerLeftX(), rectangle.getUpperRightY(), rectangle.getWidth(), rectangle.getHeight());
+
+
+                try (PDDocument doc = PDDocument.load(new File(pdf_base64)))
+                {
+                    PDPage page = doc.getPage(0);
+
+                    PDImageXObject pdImage = PDImageXObject.createFromFile(png_base64, doc);
+
+                    try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true))
+                    {
+                        // contentStream.drawImage(ximage, 20, 20 );
+                        // better method inspired by http://stackoverflow.com/a/22318681/535646
+                        // reduce this value if the image is too large
+                        float scale = 1f;
+                        //contentStream.drawImage(pdImage, posX, posY, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
+                        contentStream.drawImage(png_base64, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), width * scale, height* scale);
+                    }
+                    doc.save(outputFile);
+                }
+
 
                 String pdfout_base64 = Base64.encodeBytes(pdf_out.toByteArray());
                 callbackContext.success(pdfout_base64);
@@ -78,7 +97,7 @@ public class PdfBoxPlugin extends CordovaPlugin {
 
                 // return r;
 
-                callbackContext.success("{\"posX\" : \"" + r.getLowerLeftX() + "\", \"posY\" : \"" + r.getLowerLeftY() + "\"}");
+                callbackContext.success("{\"posX\" : \"" + r.getLowerLeftX() + "\", \"posY\" : \"" + r.getUpperRightY() + "\"}");
 
             } catch (Exception e) {
                 callbackContext.error(e.toString());
