@@ -54,7 +54,11 @@ public class PdfBoxPlugin extends CordovaPlugin {
 
             try {
 
-                // String filePath = "C:\\Users\\Aubay\\eclipse-workspace\\PDFBoxPOC\\Document_GetPdf.pdf";
+                /* The next part of the code was used in the POC to Get a PDF File and then convert it to Base64, 
+                although unecessary i wrote the code like this in order to make sure that it would work 
+                on the real use case, wich is with a base64 that comes from the tablet app.*/
+
+                // String filePath = "C:\\Users\\MyUser\\eclipse-workspace\\PDFBoxPOC\\Document_GetPdf.pdf";
                 // String base64File = "";
                 // File myimage = new File(filePath);
                 // FileInputStream imageInFile = new FileInputStream(myimage); 
