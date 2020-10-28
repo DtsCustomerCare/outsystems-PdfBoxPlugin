@@ -50,7 +50,7 @@ public class PdfBoxPlugin extends CordovaPlugin {
                         //contentStream.drawImage(pdImage, posX, posY, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
                         contentStream.drawImage(png_base64, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), width * scale, height* scale);
                     }
-                    doc.save(outputFile);
+                    // doc.save(outputFile);
                 }
 
 
