@@ -35,11 +35,11 @@ public class PdfBoxPlugin extends CordovaPlugin {
                 PDRectangle rectangle = getPosition();
 
 
-                try (PDDocument doc = PDDocument.load(Base64.getDecoder().decode(base64File)))
+                try (PDDocument doc = PDDocument.load(Base64.getDecoder().decode(pdf_base64)))
                 {
                     PDPage page = doc.getPage(0);
-
-                    PDImageXObject pdImage = PDImageXObject.createFromFile(png_base64, doc);
+                    //PDImageXObject pdImage = PDImageXObject.createFromFile(imagePath, doc);
+                    PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, Base64.getDecoder().decode(png_base64), "");
 
                     try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true))
                     {
@@ -48,19 +48,21 @@ public class PdfBoxPlugin extends CordovaPlugin {
                         // reduce this value if the image is too large
                         float scale = 1f;
                         //contentStream.drawImage(pdImage, posX, posY, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
-                        contentStream.drawImage(png_base64, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), width * scale, height* scale);
+                        contentStream.drawImage(pdImage, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), width * scale, height* scale);
                     }
                     // doc.save(outputFile);
                 }
 
-
-                String pdfout_base64 = Base64.encodeBytes(pdf_out.toByteArray());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                doc.save(baos);
+                String pdfout_base64 = Base64.getEncoder().encodeToString(baos.toByteArray());
+                doc.close();
                 callbackContext.success(pdfout_base64);
 
             } catch (Exception e) {
-                
 
                 callbackContext.error(e.toString());
+
             }
 
             return true;
@@ -100,7 +102,9 @@ public class PdfBoxPlugin extends CordovaPlugin {
                 callbackContext.success("{\"posX\" : \"" + r.getLowerLeftX() + "\", \"posY\" : \"" + r.getUpperRightY() + "\"}");
 
             } catch (Exception e) {
+
                 callbackContext.error(e.toString());
+                
             }
 
             return true;
