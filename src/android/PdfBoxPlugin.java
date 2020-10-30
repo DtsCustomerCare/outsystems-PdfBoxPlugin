@@ -35,7 +35,7 @@ public class PdfBoxPlugin extends CordovaPlugin {
                 PDRectangle rectangle = getPosition();
 
 
-                try (PDDocument doc = PDDocument.load(new File(pdf_base64)))
+                try (PDDocument doc = PDDocument.load(Base64.getDecoder().decode(base64File)))
                 {
                     PDPage page = doc.getPage(0);
 
