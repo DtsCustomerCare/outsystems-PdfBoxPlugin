@@ -5,7 +5,5 @@ repositories{
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    
-    implementation files('org.apache.pdfbox:pdfbox:2.0.20')
+    implementation files('libs/pdfbox-2.0.20.jar')
 }
