@@ -6,6 +6,12 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.ByteArrayOutputStream;
+import java.util.Set;
+import java.util.List;
+import java.util.Base64;
+import java.io.File;
+import java.io.FileInputStream;
 
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
@@ -15,10 +21,10 @@ import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
 import com.tom_roush.pdfbox.pdmodel.font.PDFont;
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
-
-import java.io.ByteArrayOutputStream;
-import java.util.Set;
-import java.util.List;
+import com.tom_roush.pdfbox.pdmodel.PDDocumentCatalog;
+import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
+import com.tom_roush.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import com.tom_roush.pdfbox.pdmodel.interactive.form.PDField;
 
 public class PdfBoxPlugin extends CordovaPlugin {
 
@@ -35,11 +41,10 @@ public class PdfBoxPlugin extends CordovaPlugin {
                 PDRectangle rectangle = getPosition();
 
 
-                try (PDDocument doc = PDDocument.load(Base64.getDecoder().decode(pdf_base64)))
-                {
+                    PDDocument doc = PDDocument.load(pdf_base64);
                     PDPage page = doc.getPage(0);
                     //PDImageXObject pdImage = PDImageXObject.createFromFile(imagePath, doc);
-                    PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, Base64.getDecoder().decode(png_base64), "");
+                    PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, png_base64, "");
 
                     try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true))
                     {
@@ -51,7 +56,7 @@ public class PdfBoxPlugin extends CordovaPlugin {
                         contentStream.drawImage(pdImage, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), width * scale, height* scale);
                     }
                     // doc.save(outputFile);
-                }
+                
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 doc.save(baos);
