@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
-import com.tom_roush.pdfbox.pdmodel.PDPageContentStream.AppendMode;
+//import com.tom_roush.pdfbox.pdmodel.PDPageContentStream.AppendMode;
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
 import com.tom_roush.pdfbox.pdmodel.font.PDFont;
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
@@ -100,9 +100,9 @@ public class PdfBoxPlugin extends CordovaPlugin {
                 PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
                 PDAcroForm acroForm = docCatalog.getAcroForm();
                 
-                PDField myField = (PDField)   acroForm.getFields().get(0);
+                PDField myField = (PDField) acroForm.getFields().get(0);
             
-                PDRectangle r = myField.getWidgets().get(0).getRectangle();
+                PDRectangle r = myField.getWidget().getRectangle();
 
                 // return r;
 
