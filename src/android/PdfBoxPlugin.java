@@ -41,10 +41,10 @@ public class PdfBoxPlugin extends CordovaPlugin {
                 PDRectangle rectangle = getPosition();
 
 
-                    PDDocument doc = PDDocument.load((Base64.getDecoder().decode(pdf_base64));
+                    PDDocument doc = PDDocument.load(Base64.getDecoder().decode(pdf_base64));
                     PDPage page = doc.getPage(0);
                     //PDImageXObject pdImage = PDImageXObject.createFromFile(imagePath, doc);
-                    PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, (Base64.getDecoder().decode(png_base64), "");
+                    PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, Base64.getDecoder().decode(png_base64), "");
 
                     try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true))
                     {
