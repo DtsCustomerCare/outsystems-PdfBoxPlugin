@@ -16,7 +16,6 @@ import java.io.FileInputStream;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
-//import com.tom_roush.pdfbox.pdmodel.PDPageContentStream.AppendMode;
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
 import com.tom_roush.pdfbox.pdmodel.font.PDFont;
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
@@ -45,13 +44,16 @@ public class PdfBoxPlugin extends CordovaPlugin {
                     PDField f = (PDField) acroForm.getFields().get(0);
                     PDRectangle rectangle = f.getWidget().getRectangle();
 
-                    //PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, Base64.getDecoder().decode(png_base64), "");
+                    PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, Base64.getDecoder().decode(png_base64), "");
                     
-                    BufferedImage bImage = ImageIO.read(png_base64);//This line needs to be changed, this should be a conversion from the png_base64 to a buffered image; The version 2.0 of pdfbx has a PDImageXObject.createFromByteArray, wich is more direct to use;
-                    PDXObjectImage pdImage = new PDPixelMap(doc,bImage);
+                    //The above line needs to be changed to something like the nex two lines, it should be a conversion from the png_base64 to a BufferedImage; 
+                    //The version 2.0 of pdfbx has a PDImageXObject.createFromByteArray, wich is more direct to use;
+                    //BufferedImage bImage = ImageIO.read(png_base64);
+                    //PDXObjectImage pdImage = new PDPixelMap(doc,bImage);
 
                     try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, true, true))
                     {
+                        float scale = 1f;
                         contentStream.drawImage(pdImage, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), rectangle.getWidth() * scale, rectangle.getHeight()* scale);
                     }
                     // doc.save(outputFile);
