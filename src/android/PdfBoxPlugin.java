@@ -40,21 +40,18 @@ public class PdfBoxPlugin extends CordovaPlugin {
                 
                     PDDocument doc = PDDocument.load(Base64.getDecoder().decode(pdf_base64));
                     PDPage page = doc.getPage(0);
-                    
-                    //PDImageXObject pdImage = PDImageXObject.createFromFile(imagePath, doc);
-                    PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, Base64.getDecoder().decode(png_base64), "");
                     PDDocumentCatalog docCatalog = doc.getDocumentCatalog();
                     PDAcroForm acroForm = docCatalog.getAcroForm();
                     PDField f = (PDField) acroForm.getFields().get(0);
                     PDRectangle rectangle = f.getWidget().getRectangle();
 
+                    //PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, Base64.getDecoder().decode(png_base64), "");
+                    
+                    BufferedImage bImage = ImageIO.read(png_base64);//This line needs to be changed, this should be a conversion from the png_base64 to a buffered image; The version 2.0 of pdfbx has a PDImageXObject.createFromByteArray, wich is more direct to use;
+                    PDXObjectImage pdImage = new PDPixelMap(doc,bImage);
+
                     try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, true, true))
                     {
-                        // contentStream.drawImage(ximage, 20, 20 );
-                        // better method inspired by http://stackoverflow.com/a/22318681/535646
-                        // reduce this value if the image is too large
-                        float scale = 1f;
-                        //contentStream.drawImage(pdImage, posX, posY, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
                         contentStream.drawImage(pdImage, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), rectangle.getWidth() * scale, rectangle.getHeight()* scale);
                     }
                     // doc.save(outputFile);
