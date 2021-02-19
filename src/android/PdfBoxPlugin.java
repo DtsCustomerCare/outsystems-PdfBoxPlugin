@@ -53,7 +53,7 @@ public class PdfBoxPlugin extends CordovaPlugin {
                         // reduce this value if the image is too large
                         float scale = 1f;
                         //contentStream.drawImage(pdImage, posX, posY, pdImage.getWidth() * scale, pdImage.getHeight() * scale);
-                        contentStream.drawImage(pdImage, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), width * scale, height* scale);
+                        contentStream.drawImage(pdImage, rectangle.getLowerLeftX(), rectangle.getUpperRightY(), rectangle.getWidth() * scale, rectangle.getHeight()* scale);
                     }
                     // doc.save(outputFile);
                 
