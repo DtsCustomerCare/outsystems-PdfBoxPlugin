@@ -43,12 +43,12 @@ public class PdfBoxPlugin extends CordovaPlugin {
                     
                     //PDImageXObject pdImage = PDImageXObject.createFromFile(imagePath, doc);
                     PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, Base64.getDecoder().decode(png_base64), "");
-                    PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
+                    PDDocumentCatalog docCatalog = doc.getDocumentCatalog();
                     PDAcroForm acroForm = docCatalog.getAcroForm();
                     PDField f = (PDField) acroForm.getFields().get(0);
-                    PDRectangle rectangle = f.getWidgets().get(0).getRectangle();
+                    PDRectangle rectangle = f.getWidget().getRectangle();
 
-                    try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true))
+                    try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, true, true))
                     {
                         // contentStream.drawImage(ximage, 20, 20 );
                         // better method inspired by http://stackoverflow.com/a/22318681/535646
@@ -100,9 +100,9 @@ public class PdfBoxPlugin extends CordovaPlugin {
                 PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
                 PDAcroForm acroForm = docCatalog.getAcroForm();
                 
-                PDField f = (PDField)   acroForm.getFields().get(0);
+                PDField myField = (PDField)   acroForm.getFields().get(0);
             
-                PDRectangle r = f.getWidgets().get(0).getRectangle();
+                PDRectangle r = myField.getWidgets().get(0).getRectangle();
 
                 // return r;
 
